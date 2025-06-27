@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate QRCode</title>
+   
+</head>
+<body>
+    <form
+        id = "form"
+        class = "mx-auto my-5 shadow p-2"
+        method = "POST"
+    >
+    <!-- action= will be set by javascript -->
+        <div class="mb-1 d-flex">
+            <label class="mx-3" for="customer" >Phone</label>
+            <input
+                type="text"
+                class="mx-3 form-control"
+                id="number"
+                name="Customer"
+                list="customers"
+            />
+            <datalist id="customers">
+                <!-- javascript will add options here -->
+            </datalist>
+        </div>
+        <div class="mb-1 d-flex">
+            <label class="mx-3" for="phone">Amount</label>
+            <input
+                type="text"
+                class="mx-3 form-control"
+                id="amount"
+                name="Phone"
+                list="phones"
+            />
+            <datalist id="phones">
+                <!-- javascript will add options here -->
+            </datalist>
+        </div>
+        <!--div class="mb-1 d-flex">
+            <label class="mx-3" for="address">Address:</label>
+            <input
+                type=""
+                class="mx-3 form-control"
+                id="address"
+                name="Address"
+                list="addresses"
+            />
+            <datalist id="addresses">
+                < javascript will add options here >                
+            </datalist>
+        </div>
+        <div class="mb-1 d-flex">
+            <label class="mx-3" for="price">Price:</label>
+            <input
+                type=""
+                class="mx-3 form-control"
+                id="price"
+                name="Price"
+            />
+        </div-->
+        <button type="submit" class="btn btn-primary"  >Submit</button>
+         <div>
+        <!--input type="text" id="amount" placeholder="amount" >
+        <input type="text" id="number" placeholder="number" -->
+        <!--button onclick="genQR()">Generate</button-->
+    </div> 
+    </form>
+    <script>
+        const url = "https://script.google.com/macros/s/AKfycbyNeT0qpborW49tJ_nqO1f_Zr-QNRK0wCAfgkq4f1bZBphaJNrGgbjPdpVjK5y7iqZEGg/exec" // enter your public ('access' - 'anyone') deployment URL (NOT test deployment!)
+        document.getElementById('form').action = url;
+
+        // fetching the data from each column in the sheet
+        // then populating the respective datalist
+    /*  {   fetch(`${url}?header=Customer`)
+            .then((response) => response.json())
+            .then(({ data }) => {
+                console.log(data);
+                populateDatalists("customers", data)
+            })
+            .catch((error) => console.error('!!!!!!!!', error));
+
+        fetch(`${url}?header=Phone`)
+            .then((response) => response.json())
+            .then(({ data }) => {
+                console.log(data);
+                populateDatalists("phones", data)
+            })
+            .catch((error) => console.error('!!!!!!!!', error));
+        
+        fetch(`${url}?header=Address`)
+            .then((response) => response.json())
+            .then(({ data }) => {
+                console.log(data);
+                populateDatalists("addresses", data)
+            })
+            .catch((error) => console.error('!!!!!!!!', error));
+
+        // function to add options to datalists
+        const populateDatalists = (id, arr) => {
+            let result = '';
+            for (const item of arr) {
+                result += `<option value="${item}">`;
+            }
+            document.getElementById(id).innerHTML = result;
+        } 
+    }*/
+    </script>
+</body>
+<body>
+    <div>
+        <!--input type="text" id="amount" placeholder="amount" >
+        <input type="text" id="number" placeholder="number" -->
+        <button onclick="genQR()">Generate</button>
+    </div> 
+    <img id="imgqr" src="" style="width: 300px; object-fit: contain;">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+        function genQR() {
+            $.ajax({
+                method: 'post',
+                url: 'http://localhost:3000/generateQR',
+                data: {
+                    number: $("#number").val(),
+                    amount: parseFloat ($("#amount").val())
+                },
+                success: function(response) {
+                    console.log('good', response)
+                    $("#imgqr").attr("src", response.Result);
+                }, error: function(err) {
+                    console.log('bad', err)
+                }
+            })
+        }
+    </script>
+ 
+   
+</body>
+</html>
